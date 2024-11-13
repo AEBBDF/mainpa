@@ -1,0 +1,563 @@
+<!DOCTYPE html><html lang="tr"><head>
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self' 'unsafe-inline' 'unsafe-eval' data: blob: https://cdnjs.cloudflare.com https://cdn.jsdelivr.net https://code.jquery.com https://unpkg.com https://d3js.org https://threejs.org https://cdn.plot.ly https://stackpath.bootstrapcdn.com https://maps.googleapis.com https://cdn.tailwindcss.com https://ajax.googleapis.com https://kit.fontawesome.com https://cdn.datatables.net https://maxcdn.bootstrapcdn.com https://code.highcharts.com; connect-src 'self' https://*; frame-src 'self' https://www.youtube.com; child-src 'self' blob:; worker-src 'self' blob:; img-src 'self' data: https://*;">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ARTX Main</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Sortable/1.15.0/Sortable.min.js"></script>
+    <style>
+        body {
+            background-color: #212428;
+            color: white;
+            font-family: Segoe UI, sans-serif;
+            margin: 0;
+            padding: 20px;
+        }
+
+        .header {
+            display: flex;
+            align-items: center;
+            gap: 40px;
+        }
+
+        .logo {
+            width: 150px;
+            height: auto;
+			margin-top: 10px;
+        }
+
+        .search-section {
+            flex-grow: 1;
+            position: relative;
+        }
+
+        .search-tabs {
+            display: flex;
+            gap: 15px;
+            margin-bottom: 3px;
+            padding-left: 7px;
+        }
+
+        .search-tab {
+            color: #808080;
+            cursor: pointer;
+            padding: 5px 0;
+            border-bottom: 2px solid transparent;
+        }
+
+        .search-tab.active {
+            color: white;
+            border-bottom: 2px solid white;
+        }
+
+        .search-input {
+            width: 98.7%;
+            padding: 10px;
+            background-color: #909090;
+            border: none;
+            border-radius: 5px;
+            color: white;
+            font-size: 20px;
+        }
+
+        .datetime-container {
+            display: flex;
+            gap: 40px;
+            color: #909090;
+            padding: 5px;
+            margin-top: -3px;
+            font-size: 1.3em;
+        }
+
+        .categories-container {
+            min-height: 100px;
+        }
+
+        .category {
+            margin-top: 10px;
+            padding: 10px;
+            border-radius: 8px;
+            position: relative;
+            height: 18px;
+            overflow: hidden;
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+
+        .category .grid {
+            margin-top: 20px;
+            visibility: hidden;
+            opacity: 0;
+            transition: visibility 0s, opacity 0.3s ease;
+        }
+
+        .category.expanded {
+            height: auto;
+        }
+
+        .category.expanded .grid {
+            visibility: visible;
+            opacity: 1;
+        }
+
+        .drag-handle {
+            color: #808080;
+            cursor: move;
+            font-size: 28px;
+            user-select: none;
+            transition: color 0.2s;
+            position: absolute;
+            right: 10px;
+            top: 5px;
+            z-index: 2;
+        }
+
+        .drag-handle:hover {
+            color: #505050;
+        }
+
+        .category.dragging {
+            opacity: 1;
+            background: #3a4552;
+        }
+
+        .category.cat1 { background-color: #5F5D54; }
+        .category.cat2 { background-color: #525150; }
+        .category.cat3 { background-color: #556151; }
+        .category.cat4 { background-color: #424140; }
+		.category.cat5 { background-color: #624b43; }
+		.category.cat6 { background-color: #64495c; }
+        .category.cat7 { background-color: #494a64; }
+        .category.cat8 { background-color: #394e5e; }
+        .category.cat9 { background-color: #385449; }
+		.category.cat10 { background-color: #4d5e3c; }
+		
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(80px, 1fr));
+            gap: 10px;
+            padding: 5px;
+            transition: all 0.3s ease;
+            overflow: hidden;
+            height: auto;
+            margin: 0;
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .icon {
+            width: 80px;
+            height: 80px;
+            cursor: pointer;
+            transition: transform 0.2s;
+        }
+
+        .icon:hover {
+            transform: scale(1.1);
+        }
+
+        .search-input::placeholder {
+            color: #ccc;
+        }
+
+        .search-input:focus {
+            outline: none;
+        }
+
+        .sortable-ghost {
+            opacity: 0.4;
+        }
+
+        .sortable-chosen {
+            background-color: #3a4552 !important;
+        }
+
+        .sortable-drag {
+            opacity: 0.9;
+            transform: scale(1.02);
+        }
+		.categories-container {
+        min-height: 100px;
+		}
+
+		.sortable-ghost {
+			opacity: 0.4;
+		}
+
+		.sortable-chosen {
+			background-color: #c9c9c9 !important;
+		}
+
+		.sortable-drag {
+			opacity: 0.9;
+			transform: scale(1.5);
+		}
+
+		.drag-handle {
+			color: #707070;
+			cursor: move;
+			font-size: 28px;
+			user-select: none;
+			transition: color 0.1s;
+			position: absolute;
+			right: 15px;
+			top: 0px;
+			z-index: 2;
+		}
+
+		.drag-handle:hover {
+			color: #ffffff;
+		}
+    </style>
+</head>
+<body></body></html>
+<!DOCTYPE html><html><head><meta http-equiv="Content-Security-Policy" content="default-src 'self' 'unsafe-inline' 'unsafe-eval' data: blob: https://cdnjs.cloudflare.com https://cdn.jsdelivr.net https://code.jquery.com https://unpkg.com https://d3js.org https://threejs.org https://cdn.plot.ly https://stackpath.bootstrapcdn.com https://maps.googleapis.com https://cdn.tailwindcss.com https://ajax.googleapis.com https://kit.fontawesome.com https://cdn.datatables.net https://maxcdn.bootstrapcdn.com https://code.highcharts.com https://tako-static-assets-production.s3.amazonaws.com https://www.youtube.com https://fonts.googleapis.com https://fonts.gstatic.com https://pfst.cf2.poecdn.net https://i.imgur.com https://wikimedia.org https://*.icons8.com https://*.giphy.com https://picsum.photos https://images.unsplash.com; frame-src 'self' https://www.youtube.com https://trytako.com; child-src 'self'; manifest-src 'self'; worker-src 'self'; upgrade-insecure-requests; block-all-mixed-content;"></head><body>
+    <div class="header">
+        <img src="logo.png" alt="ARTX Creative Design" class="logo">
+        <div class="search-section">
+            <div class="search-tabs">
+                <div class="search-tab active" data-type="web">Web</div>
+                <div class="search-tab" data-type="page">Sayfa</div>
+            </div>
+            <input type="text" class="search-input">
+            <div class="datetime-container">
+                <span id="date"></span>
+                <span id="time"></span>
+            </div>
+        </div>
+    </div>
+
+    <!-- Kategoriler için yeni container -->
+    <div class="categories-container">
+        <!-- Kategori 1 -->
+        <div class="category cat1" data-id="category1">
+            <div class="category-header">
+                <h3></h3>
+                <div class="drag-handle">⋮</div>
+            </div>
+            <div class="grid">
+                <a href="https://www.google.com" target="_blank">
+                    <img class="icon" src="icons/google.png" alt="Google">
+                </a>
+				<a href="https://www.ensonhaber.com/" target="_blank">
+                    <img class="icon" src="icons/ensonhaber.png" alt="Example">
+                </a>
+				<a href="https://www.yeniakit.com.tr/islam/" target="_blank">
+                    <img class="icon" src="icons/akit.png" alt="Example">
+                </a>
+				<a href="https://www.yenisafak.com/" target="_blank">
+                    <img class="icon" src="icons/yenisafak2.png" alt="Example">
+                </a>
+				<a href="https://shiftdelete.net/" target="_blank">
+                    <img class="icon" src="icons/shiftdelete.png" alt="Example">
+                </a>
+				<a href="https://tr.pinterest.com/" target="_blank">
+                    <img class="icon" src="icons/pinterest.png" alt="Example">
+                </a>
+				<a href="https://www.youtube.com/" target="_blank">
+                    <img class="icon" src="icons/youtube.png" alt="Example">
+                </a>
+				<a href="https://express.adobe.com/sp/" target="_blank">
+                    <img class="icon" src="icons/adobeexp2.png" alt="Example">
+				</a>
+				<a href="https://www.udemy.com/mobile/ipad/" target="_blank">
+                    <img class="icon" src="icons/udemy.png" alt="Example">
+                </a>
+				<a href="https://www.deepl.com/en/translator" target="_blank">
+                    <img class="icon" src="icons/deepl2.png" alt="Example">
+                </a>
+				<a href="https://wetransfer.com/" target="_blank">
+                    <img class="icon" src="icons/wetransfer.png" alt="Example">
+                </a>
+				<a href="https://www.matbuu.com/" target="_blank">
+                    <img class="icon" src="icons/matbuu.png" alt="Example">
+                </a>
+				<a href="https://drive.google.com/drive/my-drive" target="_blank">
+                    <img class="icon" src="icons/googledrive.png" alt="Example">
+                </a>
+				<a href="https://play.google.com/store/apps?hl=tr&gl=US" target="_blank">
+                    <img class="icon" src="icons/googleplay.png" alt="Example">
+                </a>
+				<a href="https://www.freepik.com/" target="_blank">
+                    <img class="icon" src="icons/freepik.png" alt="Example">
+                </a>
+				<a href="https://www.rawpixel.com/" target="_blank">
+                    <img class="icon" src="icons/rawpixel.png" alt="Example">
+                </a>
+				<a href="https://enabiz.gov.tr/" target="_blank">
+                    <img class="icon" src="icons/enabiz.png" alt="Example">
+                </a>
+				<a href="https://www.yemeksepeti.com/" target="_blank">
+                    <img class="icon" src="icons/yemeksepeti.png" alt="Example">
+                </a>
+				<a href="https://www.temu.com/tr" target="_blank">
+                    <img class="icon" src="icons/temu.png" alt="Example">
+                </a>
+				<a href="https://www.virustotal.com/gui/home/upload" target="_blank">
+                    <img class="icon" src="icons/virustotal.png" alt="Example">
+                </a>
+				<a href="https://filecr.com/ms-windows/?id=364877520000" target="_blank">
+                    <img class="icon" src="icons/filecr.png" alt="Example">
+                </a>
+				<a href="https://cgdownload.ru/" target="_blank">
+                    <img class="icon" src="icons/cgdownload.png" alt="Example">
+                </a>
+				<a href="https://www.architonic.com/en" target="_blank">
+                    <img class="icon" src="icons/architonic.png" alt="Example">
+                </a>
+				<a href="https://coolors.co/" target="_blank">
+                    <img class="icon" src="icons/coolors.png" alt="Example">
+                </a>
+				<a href="https://color.adobe.com/tr/create/color-wheel" target="_blank">
+                    <img class="icon" src="icons/adobecolor.png" alt="Example">
+                </a>
+				<a href="https://www.tumblr.com/" target="_blank">
+                    <img class="icon" src="icons/tumblr.png" alt="Example">
+                </a>
+				<a href="https://send-anywhere.com/" target="_blank">
+                    <img class="icon" src="icons/sendanywhere.png" alt="Example">
+                </a>
+                <!-- Diğer ikonlar -->
+            </div>
+        </div>
+
+        <!-- Kategori 2 -->
+        <div class="category cat2" data-id="category2">
+            <div class="category-header">
+                <h3></h3>
+                <div class="drag-handle">⋮</div>
+            </div>
+            <div class="grid">
+                <a href="https://poe.com" target="_blank">
+                    <img class="icon" src="icons/poe1.png" alt="Example">
+                </a>
+				<a href="https://firefly.adobe.com/" target="_blank">
+                    <img class="icon" src="icons/adobefirefly.png" alt="Example">
+                </a>
+				<a href="https://claude.ai/new" target="_blank">
+                    <img class="icon" src="icons/claude.png" alt="Example">
+                </a>
+				<a href="https://chatgpt.com/?model=auto" target="_blank">
+                    <img class="icon" src="icons/chatgpt.png" alt="Example">
+                </a>
+				<a href="https://copilot.microsoft.com/" target="_blank">
+                    <img class="icon" src="icons/copilot.png" alt="Example">
+                </a>
+				<a href="https://gemini.google.com/?hl=tr" target="_blank">
+                    <img class="icon" src="icons/gemini.png" alt="Example">
+                </a>
+				<a href="https://www.llama.com/" target="_blank">
+                    <img class="icon" src="icons/metallama.png" alt="Example">
+                </a>
+				<a href="https://elevenlabs.io/" target="_blank">
+                    <img class="icon" src="icons/elevenlabs.png" alt="Example">
+                </a>
+				<a href="https://suno.com/create" target="_blank">
+                    <img class="icon" src="icons/suno.png" alt="Example">
+                </a>
+				<a href="https://www.udio.com/" target="_blank">
+                    <img class="icon" src="icons/udio.png" alt="Example">
+                </a>
+				<a href="https://create.musicfy.lol/" target="_blank">
+                    <img class="icon" src="icons/musicfy.png" alt="Example">
+                </a>
+				<a href="https://soundraw.io/" target="_blank">
+                    <img class="icon" src="icons/soundraw.png" alt="Example">
+                </a>
+				<a href="https://www.recraft.ai/" target="_blank">
+                    <img class="icon" src="icons/recraft.png" alt="Example">
+                </a>
+				<a href="https://www.midjourney.com/home" target="_blank">
+                    <img class="icon" src="icons/midjourney.png" alt="Example">
+                </a>
+				<a href="https://ideogram.ai/login" target="_blank">
+                    <img class="icon" src="icons/ideogram.png" alt="Example">
+                </a>
+				<a href="https://leonardo.ai/" target="_blank">
+                    <img class="icon" src="icons/leonardo.png" alt="Example">
+                </a>
+				<a href="https://playground.com/" target="_blank">
+                    <img class="icon" src="icons/playground.png" alt="Example">
+                </a>
+				<a href="https://openai.com/index/dall-e-3/" target="_blank">
+                    <img class="icon" src="icons/dalle.png" alt="Example">
+                </a>
+				<a href="https://piclumen.com" target="_blank">
+                    <img class="icon" src="icons/piclumen.png" alt="Example">
+                </a>
+				<a href="https://magnific.ai/" target="_blank">
+                    <img class="icon" src="icons/magnific.png" alt="Example">
+                </a>
+				<a href="https://www.perplexity.ai/" target="_blank">
+                    <img class="icon" src="icons/perplexity.png" alt="Example">
+                </a>
+				<a href="https://notebooklm.google.com/" target="_blank">
+                    <img class="icon" src="icons/notebooklm.png" alt="Example">
+                </a>
+				<a href="https://huggingface.co/" target="_blank">
+                    <img class="icon" src="icons/huggingface.png" alt="Example">
+                </a>
+				<a href="https://civitai.com/models" target="_blank">
+                    <img class="icon" src="icons/civitai.png" alt="Example">
+                </a>
+				<a href="https://tensor.art/" target="_blank">
+                    <img class="icon" src="icons/tensorart.png" alt="Example">
+                </a>
+				<a href="https://www.shakker.ai/models" target="_blank">
+                    <img class="icon" src="icons/shakkerai.png" alt="Example">
+                </a>
+				<a href="https://runwayml.com/research/gen-2" target="_blank">
+                    <img class="icon" src="icons/runway.png" alt="Example">
+                </a>
+				<a href="https://www.heygen.com/" target="_blank">
+                    <img class="icon" src="icons/heygen.png" alt="Example">
+                </a>
+				<a href="https://pika.art/home" target="_blank">
+                    <img class="icon" src="icons/pika.png" alt="Example">
+                </a>
+				<a href="https://replit.com/" target="_blank">
+                    <img class="icon" src="icons/replit.png" alt="Example">
+                </a>
+				<a href="https://creatie.ai/" target="_blank">
+                    <img class="icon" src="icons/creatie.png" alt="Example">
+                </a>
+				<a href="https://tr.rask.ai/" target="_blank">
+                    <img class="icon" src="icons/raskai.png" alt="Example">
+                </a>
+				<a href="https://www.unite.ai/" target="_blank">
+                    <img class="icon" src="icons/uniteai.png" alt="Example">
+                </a>
+
+            </div>
+        </div>
+
+        <!-- Kategori 3 -->
+        <div class="category cat3" data-id="category3">
+            <div class="category-header">
+                <h3></h3>
+                <div class="drag-handle">⋮</div>
+            </div>
+            <div class="grid">
+                <a href="https://example.com" target="_blank">
+                    <img class="icon" src="icons/example.png" alt="Example">
+                </a>
+                <a href="https://example.com" target="_blank">
+                    <img class="icon" src="icons/example.png" alt="Example">
+                </a>
+            </div>
+        </div>
+
+        <!-- Kategori 4 -->
+        <div class="category cat4" data-id="category4">
+            <div class="category-header">
+                <h3></h3>
+                <div class="drag-handle">⋮</div>
+            </div>
+            <div class="grid">
+                <a href="https://example.com" target="_blank">
+                    <img class="icon" src="icons/example.png" alt="Example">
+                </a>
+                <a href="https://example.com" target="_blank">
+                    <img class="icon" src="icons/example.png" alt="Example">
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <script>
+    function updateDateTime() {
+        const now = new Date();
+        const dateOptions = { 
+            year: 'numeric', 
+            month: 'long', 
+            day: 'numeric',
+            weekday: 'long'
+        };
+        const timeOptions = {
+            hour: '2-digit',
+            minute: '2-digit'
+        };
+        
+        document.getElementById('date').textContent = 
+            now.toLocaleDateString('tr-TR', dateOptions);
+        document.getElementById('time').textContent = 
+            now.toLocaleTimeString('tr-TR', timeOptions);
+    }
+
+    updateDateTime();
+    setInterval(updateDateTime, 60000);
+
+    document.querySelectorAll('.search-tab').forEach(tab => {
+        tab.addEventListener('click', () => {
+            document.querySelector('.search-tab.active').classList.remove('active');
+            tab.classList.add('active');
+        });
+    });
+
+    document.querySelector('.search-input').addEventListener('keyup', function(e) {
+        const searchType = document.querySelector('.search-tab.active').dataset.type;
+        
+        if (searchType === 'web' && e.key === 'Enter') {
+            window.open('https://www.google.com/search?q=' + encodeURIComponent(this.value), '_blank');
+            this.value = '';
+        } else if (searchType === 'page') {
+            const filter = this.value.toLowerCase();
+            const icons = document.getElementsByClassName('icon');
+            for (let icon of icons) {
+                const text = icon.alt.toLowerCase();
+                icon.parentElement.style.display = text.includes(filter) ? '' : 'none';
+            }
+        }
+    });
+
+    document.addEventListener('DOMContentLoaded', () => {
+        const categories = document.querySelectorAll('.category');
+        
+        // Kaydedilmiş sıralamayı yükle
+        const savedOrder = localStorage.getItem('categoriesOrder');
+        if (savedOrder) {
+            const orderArray = JSON.parse(savedOrder);
+            const container = document.querySelector('.categories-container');
+            orderArray.forEach(categoryId => {
+                const category = document.querySelector(`[data-id="${categoryId}"]`);
+                if (category) {
+                    container.appendChild(category);
+                }
+            });
+        }
+
+		// Kategori tıklama olayı
+		categories.forEach((category, index) => {
+			category.addEventListener('click', (e) => {
+				// Eğer tıklanan element bir link veya ikon ise kategorinin kapanmasını engelle
+				if (e.target.tagName === 'A' || e.target.tagName === 'IMG' || e.target.classList.contains('drag-handle')) {
+					return;
+				}
+				category.classList.toggle('expanded');
+				localStorage.setItem(`category${index}`, 
+					category.classList.contains('expanded') ? 'expanded' : 'collapsed');
+			});
+
+			// Kategorinin son durumunu yükle
+			const savedState = localStorage.getItem(`category${index}`);
+			if (savedState === 'expanded') {
+				category.classList.add('expanded');
+			}
+		});
+
+        // Sürükle-bırak özelliği
+        new Sortable(document.querySelector('.categories-container'), {
+            animation: 150,
+            handle: '.drag-handle',
+            ghostClass: 'sortable-ghost',
+            chosenClass: 'sortable-chosen',
+            dragClass: 'sortable-drag',
+            onEnd: function() {
+                const categories = document.querySelectorAll('.category');
+                const order = Array.from(categories).map(cat => cat.dataset.id);
+                localStorage.setItem('categoriesOrder', JSON.stringify(order));
+            }
+        });
+    });
+</script>
+</body>
+</html>

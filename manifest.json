@@ -1,0 +1,21 @@
+{
+    "name": "ARTX Main",             // Tam uygulama adı
+    "short_name": "ARTX",            // Kısa ad (ana ekranda görünecek)
+    "start_url": "index.html",       // Uygulama başlangıç sayfası
+    "display": "standalone",         // Tarayıcı UI'ı gizler, tam ekran app gibi görünür
+    "background_color": "#212428",   // Açılış ekranı arkaplan rengi
+    "theme_color": "#212428",        // Üst bar rengi
+    "orientation": "any",            // Ekran yönü (any/portrait/landscape)
+    "icons": [                       // App ikonları
+        {
+            "src": "icons/app-icon-192.png",
+            "sizes": "192x192",
+            "type": "image/png"
+        },
+        {
+            "src": "icons/app-icon-512.png",
+            "sizes": "512x512",
+            "type": "image/png"
+        }
+    ]
+}
