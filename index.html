@@ -120,10 +120,10 @@
             background: #3a4552;
         }
 
-        .category.cat1 { background-color: #5F5D54; }
+        .category.cat1 { background-color: #525150; }
         .category.cat2 { background-color: #525150; }
-        .category.cat3 { background-color: #556151; }
-        .category.cat4 { background-color: #424140; }
+        .category.cat3 { background-color: #525150; }
+        .category.cat4 { background-color: #525150; }
 		.category.cat5 { background-color: #624b43; }
 		.category.cat6 { background-color: #64495c; }
         .category.cat7 { background-color: #494a64; }
@@ -207,12 +207,64 @@
 		.drag-handle:hover {
 			color: #ffffff;
 		}
+		.fixed-icons-container {
+			position: sticky;
+			top: 0;
+			background-color: #1a1a1a;
+			padding: 10px;
+			z-index: 1000;
+			margin: 10px 0;
+			border-radius: 8px;
+		}
+
+		.fixed-icons-grid {
+			display: grid;
+			grid-template-columns: repeat(auto-fill, minmax(80px, 1fr));
+			gap: 10px;
+			padding: 5px;
+		}
+
+		.fixed-icons-grid a {
+			display: flex;
+			justify-content: center;
+			align-items: center;
+		}
+
+		.fixed-icon {
+			width: 48px;
+			height: 48px;
+			border-radius: 8px;
+			transition: transform 0.2s;
+		}
+
+		/* İkonlar için ortak stiller */
+		.icon, .fixed-icon {
+			width: 80px;
+			height: 80px;
+			border-radius: 8px;
+			transition: transform 0.2s;
+		}
+
+		.icon:hover, .fixed-icon:hover {
+			transform: scale(1.1);
+		}
+
+		@media (max-width: 768px) {
+			.fixed-icons-grid, .grid {
+				grid-template-columns: repeat(auto-fill, minmax(60px, 1fr));
+			}
+			
+			.icon, .fixed-icon {
+				width: 60px;
+				height: 60px;
+			}
+		}
     </style>
 </head>
 <body></body></html>
 <!DOCTYPE html><html><head><meta http-equiv="Content-Security-Policy" content="default-src 'self' 'unsafe-inline' 'unsafe-eval' data: blob: https://cdnjs.cloudflare.com https://cdn.jsdelivr.net https://code.jquery.com https://unpkg.com https://d3js.org https://threejs.org https://cdn.plot.ly https://stackpath.bootstrapcdn.com https://maps.googleapis.com https://cdn.tailwindcss.com https://ajax.googleapis.com https://kit.fontawesome.com https://cdn.datatables.net https://maxcdn.bootstrapcdn.com https://code.highcharts.com https://tako-static-assets-production.s3.amazonaws.com https://www.youtube.com https://fonts.googleapis.com https://fonts.gstatic.com https://pfst.cf2.poecdn.net https://i.imgur.com https://wikimedia.org https://*.icons8.com https://*.giphy.com https://picsum.photos https://images.unsplash.com; frame-src 'self' https://www.youtube.com https://trytako.com; child-src 'self'; manifest-src 'self'; worker-src 'self'; upgrade-insecure-requests; block-all-mixed-content;"></head><body>
     <div class="header">
-        <img src="logo.png" alt="ARTX Creative Design" class="logo">
+        <img src="logo.png" alt="ARTX" class="logo">
         <div class="search-section">
             <div class="search-tabs">
                 <div class="search-tab active" data-type="web">Web</div>
@@ -226,17 +278,14 @@
         </div>
     </div>
 
-    <!-- Kategoriler için yeni container -->
-    <div class="categories-container">
-        <!-- Kategori 1 -->
-        <div class="category cat1" data-id="category1">
-            <div class="category-header">
-                <h3></h3>
-                <div class="drag-handle">⋮</div>
-            </div>
-            <div class="grid">
-                <a href="https://www.google.com" target="_blank">
+    <div class="fixed-icons-container">
+    <div class="fixed-icons-grid">
+	        <!-- Sabit Kategori -->
+		        <a href="https://www.google.com" target="_blank">
                     <img class="icon" src="icons/google.png" alt="Google">
+                </a>
+				<a href="https://poe.com" target="_blank">
+                    <img class="icon" src="icons/poe1.png" alt="Example">
                 </a>
 				<a href="https://www.ensonhaber.com/" target="_blank">
                     <img class="icon" src="icons/ensonhaber.png" alt="ensonhaber">
@@ -250,15 +299,18 @@
 				<a href="https://shiftdelete.net/" target="_blank">
                     <img class="icon" src="icons/shiftdelete.png" alt="shiftdelete">
                 </a>
-				<a href="https://tr.pinterest.com/" target="_blank">
-                    <img class="icon" src="icons/pinterest.png" alt="pinterest">
+				<a href="https://filecr.com/ms-windows/?id=364877520000" target="_blank">
+                    <img class="icon" src="icons/filecr.png" alt="filecr">
                 </a>
-				<a href="https://www.youtube.com/" target="_blank">
-                    <img class="icon" src="icons/youtube.png" alt="youtube">
+				<a href="https://cgdownload.ru/" target="_blank">
+                    <img class="icon" src="icons/cgdownload.png" alt="cgdownload">
                 </a>
-				<a href="https://express.adobe.com/sp/" target="_blank">
-                    <img class="icon" src="icons/adobeexp2.png" alt="express">
-				</a>
+				<a href="https://drive.google.com/drive/my-drive" target="_blank">
+                    <img class="icon" src="icons/googledrive.png" alt="drive">
+                </a>
+				<a href="https://play.google.com/store/apps?hl=tr&gl=US" target="_blank">
+                    <img class="icon" src="icons/googleplay.png" alt="play">
+                </a>
 				<a href="https://www.udemy.com/mobile/ipad/" target="_blank">
                     <img class="icon" src="icons/udemy.png" alt="udemy">
                 </a>
@@ -271,18 +323,9 @@
 				<a href="https://www.matbuu.com/" target="_blank">
                     <img class="icon" src="icons/matbuu.png" alt="matbuu">
                 </a>
-				<a href="https://drive.google.com/drive/my-drive" target="_blank">
-                    <img class="icon" src="icons/googledrive.png" alt="drive">
-                </a>
-				<a href="https://play.google.com/store/apps?hl=tr&gl=US" target="_blank">
-                    <img class="icon" src="icons/googleplay.png" alt="play">
-                </a>
-				<a href="https://www.freepik.com/" target="_blank">
-                    <img class="icon" src="icons/freepik.png" alt="freepik">
-                </a>
-				<a href="https://www.rawpixel.com/" target="_blank">
-                    <img class="icon" src="icons/rawpixel.png" alt="rawpixel">
-                </a>
+				<a href="https://www.turkiye.gov.tr/" target="_blank">
+                    <img class="icon" src="icons/edevlet.png" alt="enabız">
+				
 				<a href="https://enabiz.gov.tr/" target="_blank">
                     <img class="icon" src="icons/enabiz.png" alt="enabız">
                 </a>
@@ -295,11 +338,38 @@
 				<a href="https://www.virustotal.com/gui/home/upload" target="_blank">
                     <img class="icon" src="icons/virustotal.png" alt="virustotal">
                 </a>
-				<a href="https://filecr.com/ms-windows/?id=364877520000" target="_blank">
-                    <img class="icon" src="icons/filecr.png" alt="filecr">
+			</div>
+		</div>
+	
+    <!-- Kategoriler için yeni container -->
+    <div class="categories-container">
+        <!-- Kategori 1 -->
+        <div class="category cat1" data-id="category1">
+            <div class="category-header">
+                <h3></h3>
+                <div class="drag-handle">⋮</div>
+            </div>
+            <div class="grid">
+				<a href="https://github.com/" target="_blank">
+                    <img class="icon" src="icons/github.png" alt="github">
                 </a>
-				<a href="https://cgdownload.ru/" target="_blank">
-                    <img class="icon" src="icons/cgdownload.png" alt="cgdownload">
+				<a href="https://www.youtube.com/" target="_blank">
+                    <img class="icon" src="icons/youtube.png" alt="youtube">
+                </a>
+				<a href="https://tr.pinterest.com/" target="_blank">
+                    <img class="icon" src="icons/pinterest.png" alt="pinterest">
+                </a>
+				<a href="https://express.adobe.com/sp/" target="_blank">
+                    <img class="icon" src="icons/adobeexp2.png" alt="express">
+				</a>
+				<a href="https://firefly.adobe.com/" target="_blank">
+                    <img class="icon" src="icons/adobefirefly.png" alt="firefly">
+                </a>
+				<a href="https://www.freepik.com/" target="_blank">
+                    <img class="icon" src="icons/freepik.png" alt="freepik">
+                </a>
+				<a href="https://www.rawpixel.com/" target="_blank">
+                    <img class="icon" src="icons/rawpixel.png" alt="rawpixel">
                 </a>
 				<a href="https://www.architonic.com/en" target="_blank">
                     <img class="icon" src="icons/architonic.png" alt="architonic">
@@ -316,9 +386,7 @@
 				<a href="https://send-anywhere.com/" target="_blank">
                     <img class="icon" src="icons/sendanywhere.png" alt="sendanywhere">
                 </a>
-				<a href="https://github.com/" target="_blank">
-                    <img class="icon" src="icons/github.png" alt="github">
-                </a>
+
 		    <!-- Diğer ikonlar -->
             </div>
         </div>
@@ -330,13 +398,7 @@
                 <div class="drag-handle">⋮</div>
             </div>
             <div class="grid">
-                <a href="https://poe.com" target="_blank">
-                    <img class="icon" src="icons/poe1.png" alt="Example">
-                </a>
-				<a href="https://firefly.adobe.com/" target="_blank">
-                    <img class="icon" src="icons/adobefirefly.png" alt="firefly">
-                </a>
-				<a href="https://claude.ai/new" target="_blank">
+                <a href="https://claude.ai/new" target="_blank">
                     <img class="icon" src="icons/claude.png" alt="claude">
                 </a>
 				<a href="https://chatgpt.com/?model=auto" target="_blank">
