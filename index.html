@@ -651,7 +651,10 @@
         new Sortable(document.querySelector('.categories-container'), {
             animation: 150,
             handle: '.drag-handle',
-            ghostClass: 'sortable-ghost',
+            delay: 300,
+			delayOnTouchOnly: true,
+			touchStartThreshold: 5,
+			ghostClass: 'sortable-ghost',
             chosenClass: 'sortable-chosen',
             dragClass: 'sortable-drag',
             onEnd: function() {
@@ -665,6 +668,9 @@
         animation: 150,
         ghostClass: 'sortable-ghost',
         group: 'nested',
+		delay: 300, // 300ms gecikme
+        delayOnTouchOnly: true, // Sadece dokunmatik ekranlarda gecikme uygula
+        touchStartThreshold: 5, // Dokunma hassasiyeti
         onEnd: function(evt) {
             // Tüm kategorilerdeki ikonların yeni durumunu kaydet
             const categories = document.querySelectorAll('.category');
