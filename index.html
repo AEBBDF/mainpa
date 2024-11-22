@@ -592,7 +592,28 @@
     });
 
     document.addEventListener('DOMContentLoaded', () => {
-        const categories = document.querySelectorAll('.category');
+        // BURAYA EKLENECEK - Kaydedilmiş ikon düzenini yükle
+    const savedLayout = localStorage.getItem('iconLayout');
+    if (savedLayout) {
+        const iconLayout = JSON.parse(savedLayout);
+        
+        Object.keys(iconLayout).forEach(categoryId => {
+            const category = document.querySelector(`[data-id="${categoryId}"]`);
+            const grid = category?.querySelector('.grid');
+            if (grid) {
+                const icons = iconLayout[categoryId];
+                grid.innerHTML = '';
+                icons.forEach(icon => {
+                    grid.innerHTML += `
+                        <a href="${icon.href}" target="_blank">
+                            <img class="icon" src="${icon.img}" alt="Icon">
+                        </a>
+                    `;
+                });
+            }
+        });
+    }
+		const categories = document.querySelectorAll('.category');
         
         // Kaydedilmiş sıralamayı yükle
         const savedOrder = localStorage.getItem('categoriesOrder');
@@ -639,7 +660,32 @@
                 localStorage.setItem('categoriesOrder', JSON.stringify(order));
             }
         });
-    });
+			document.querySelectorAll('.grid').forEach(grid => {
+    new Sortable(grid, {
+        animation: 150,
+        ghostClass: 'sortable-ghost',
+        group: 'nested',
+        onEnd: function(evt) {
+            // Tüm kategorilerdeki ikonların yeni durumunu kaydet
+            const categories = document.querySelectorAll('.category');
+            const iconLayout = {};
+            
+            categories.forEach((category, index) => {
+                const categoryId = category.dataset.id;
+                const icons = Array.from(category.querySelectorAll('.grid a')).map(a => ({
+                    href: a.href,
+                    img: a.querySelector('img').src
+                }));
+                iconLayout[categoryId] = icons;
+            });
+
+            // LocalStorage'a kaydet
+            localStorage.setItem('iconLayout', JSON.stringify(iconLayout));
+            console.log('İkon düzeni kaydedildi');
+        }
+		});
+	});
+});
 </script>
 </body>
 </html>
