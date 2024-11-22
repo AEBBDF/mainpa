@@ -49,15 +49,32 @@
             border-bottom: 2px solid white;
         }
 
-        .search-input {
-            width: 98.7%;
-            padding: 10px;
-            background-color: #909090;
-            border: none;
-            border-radius: 5px;
-            color: white;
-            font-size: 20px;
-        }
+		.search-input {
+			width: 100%; /* Tam genişlik */
+			padding: 10px;
+			background-color: #909090;
+			border: none;
+			border-radius: 5px;
+			color: white;
+			font-size: 20px;
+			box-sizing: border-box;
+		}
+
+		.search-section {
+			flex-grow: 1;
+			position: relative;
+		}
+
+		.search-tabs {
+			padding-left: 7px; /* Mevcut sol hizalama korunacak */
+		}
+
+		/* Mobil için düzeltmeler */
+		@media (max-width: 768px) {
+			.search-input {
+				font-size: 16px;
+			}
+		}
 
         .datetime-container {
             display: flex;
@@ -210,7 +227,7 @@
 		.fixed-icons-container {
 			position: sticky;
 			top: 0;
-			background-color: #1a1a1a;
+			background-color: #212428;
 			padding: 10px;
 			z-index: 1000;
 			margin: 10px 0;
